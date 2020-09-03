@@ -20,4 +20,5 @@ RUN chmod +x /app/bot.py
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-ENTRYPOINT ["python", "/app/bot.py"]
+RUN python3 ./app/bot.py
+# CMD ["python", "./app/bot.py"]
