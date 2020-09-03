@@ -16,7 +16,7 @@ ADD . /app
 
 # Switching to a non-root user, please refer to https://aka.ms/vscode-docker-python-user-rights
 RUN useradd appuser && chown -R appuser /app
-RUN chmod +x /bot.py
+RUN chmod +x /app/bot.py
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
