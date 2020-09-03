@@ -10,6 +10,7 @@ amongVoiceChannel = 750634010723614741
 amongTextChannel = 750634259483590706
 fantasmikosChannel = 750691724589793291
 codeChannel = 750700369901912124
+fiotChannel = 690522033955799051
 
 #hamborguesa
 # amongVoiceChannel = 510480231979679756
@@ -72,6 +73,16 @@ async def unmutePlayers(ctx):
     for member in among_members:
         await member.edit(mute=False, deafen=False)
 
+# Unmute all players.
+@client.command(aliases=['fiot'])
+async def fiotMeeting(ctx):
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(fiotChannel)
+    for member in ctx.guild.members:
+        for role in member.roles: 
+            if role.name == "FIOT": 
+                await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+
 # Starts the game.
 @client.command(aliases=['start', 's'])
 async def startgame(ctx):
@@ -131,12 +142,6 @@ async def atchannel(ctx):
 async def fchannel(ctx):
     await ctx.channel.purge(limit=1)
     fantasmikosChannel = ctx.message.content.replace('!fchannel ', '')
-
-# set fantasmikos channel
-@client.command(aliases=['cc'])
-async def cchannel(ctx):
-    await ctx.channel.purge(limit=1)
-    amongVoiceChannel = ctx.message.content.replace('!cchannel ', '')
 
 # set fantasmikos channel
 @client.command(aliases=['cc'])
