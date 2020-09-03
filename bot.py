@@ -5,8 +5,17 @@ from discord.ext.commands   import bot
 
 # token = input("Input your Discord Bot's token.\n")
 token = 'NzUwNjk3NjkyNjMxNTMxNTMw.X0-TtQ.Yl5gRibfBYwv4snJjtgzQAJpuGw'
-amongChannel = 
-fantasmikosChannel =
+# ITG
+amongVoiceChannel = 750634010723614741
+amongTextChannel = 750634259483590706
+fantasmikosChannel = 750691724589793291
+codeChannel = 750700369901912124
+
+#hamborguesa
+# amongVoiceChannel = 510480231979679756
+# amongTextChannel = 750850108463120434
+# fantasmikosChannel = 708779003166851112
+# codeChannel = 750857189987713115
 
 client = commands.Bot(command_prefix = "!")
 
@@ -43,7 +52,7 @@ async def ping(ctx):
 @client.command(aliases=['mute','m'])
 async def mutePlayers(ctx):
     await ctx.channel.purge(limit=2)
-    fixed_channel = client.get_channel(750634010723614741)
+    fixed_channel = client.get_channel(amongVoiceChannel)
     members = fixed_channel.members #finds members connected to the channel
     await ctx.send('Shhhh :shushing_face:')
     for member in members:
@@ -53,9 +62,9 @@ async def mutePlayers(ctx):
 @client.command(aliases=['unmute','u'])
 async def unmutePlayers(ctx):
     await ctx.channel.purge(limit=2)
-    among_channel = client.get_channel(750634010723614741)
+    among_channel = client.get_channel(amongVoiceChannel)
     among_members = among_channel.members #finds members connected to the channel
-    fantasmikos_channel = client.get_channel(750691724589793291)
+    fantasmikos_channel = client.get_channel(fantasmikosChannel)
     fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
     for member in fantasmikos_members:
         await member.edit(mute=False, deafen=False, voice_channel=among_channel)
@@ -81,7 +90,7 @@ async def on_reaction_add(reaction, user):
     if user.bot:
         return
     if emoji == '✅':
-        fixed_channel = client.get_channel(750634259483590706) # General / main chat channel ID
+        fixed_channel = client.get_channel(amongTextChannel) # General / main chat channel ID
         await fixed_channel.send(f'{user.mention} is ready to play! [{reaction.count - 1}/10]')
 
 
@@ -91,7 +100,7 @@ async def on_reaction_remove(reaction, user):
     if user.bot:
         return
     if emoji == '✅':
-        fixed_channel = client.get_channel(750634259483590706) # General / main chat channel ID
+        fixed_channel = client.get_channel(amongTextChannel) # General / main chat channel ID
         await fixed_channel.send(f'{user.mention} is no longer ready to play! [{reaction.count - 1}/10]')
 
 
@@ -101,27 +110,44 @@ async def code(ctx):
     await ctx.channel.purge(limit=2)
     embed = discord.Embed(title='The Code for the game is:')
     embed.add_field(name='Code:', value=f"{ctx.message.content.replace('!code ', '').replace('!c ', '')}")
-    channel = client.get_channel(750700369901912124) # Code channel.
+    channel = client.get_channel(codeChannel) # Code channel.
     await channel.purge()
     await channel.send(embed=embed)
-    await ctx.channel.send(embed=embed)
 
 # set among channel
-@client.command(aliases=['c'])
-async def achannel(ctx):
+@client.command(aliases=['avc'])
+async def avchannel(ctx):
     await ctx.channel.purge(limit=1)
-    # embed = discord.Embed(title='The Code for the game is:')
-    # embed.add_field(name='Code:', value=f"{ctx.message.content.replace('!code ', '').replace('!c ', '')}")
-    amongChannel = ctx.message.content.replace('!code ', '').replace('!c ', '')
-    # channel = client.get_channel(750700369901912124) # Code channel.
-    # await channel.purge()
-    # await channel.send(embed=embed)
-    # await ctx.channel.send(embed=embed)
+    amongVoiceChannel = ctx.message.content.replace('!achannel ', '')
+
+# set among channel
+@client.command(aliases=['atc'])
+async def atchannel(ctx):
+    await ctx.channel.purge(limit=1)
+    amongTextChannel = ctx.message.content.replace('!achannel ', '')
+
+# set fantasmikos channel
+@client.command(aliases=['fc'])
+async def fchannel(ctx):
+    await ctx.channel.purge(limit=1)
+    fantasmikosChannel = ctx.message.content.replace('!fchannel ', '')
+
+# set fantasmikos channel
+@client.command(aliases=['cc'])
+async def cchannel(ctx):
+    await ctx.channel.purge(limit=1)
+    amongVoiceChannel = ctx.message.content.replace('!cchannel ', '')
+
+# set fantasmikos channel
+@client.command(aliases=['cc'])
+async def cchannel(ctx):
+    await ctx.channel.purge(limit=1)
+    amongVoiceChannel = ctx.message.content.replace('!cchannel ', '')
 
 # Help command
 @client.command(aliases=['commands','h'])
 async def help(ctx):
-    channelName = client.get_channel(750634010723614741)
+    channelName = client.get_channel(amongVoiceChannel)
     embed = discord.Embed(title='Comandos del Among the Bot:', colour=discord.Color.blue())
     embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.')
     embed.add_field(name='startgame (s)', value='Comienza la partida y permite a los miembros estar listos')
@@ -143,7 +169,7 @@ async def cancelgame(ctx):
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title=f'{ctx.author} ha cancelado la partida', description='A casita.')
     await ctx.send(embed=embed)
-    channel = client.get_channel(750700369901912124) # Code channel.
+    channel = client.get_channel(codeChannel) # Code channel.
     await channel.purge()
 
 
@@ -152,7 +178,7 @@ async def cancelgame(ctx):
 async def falsealarm(ctx):
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title='False Alarm.', description=f'Blame {ctx.message.content.replace("!falsealarm ", "")}')
-    channel = client.get_channel(750700369901912124) # Code channel.
+    channel = client.get_channel(codeChannel) # Code channel.
     # await channel.purge(limit=2)
     # await channel.send(embed=embed)
     await ctx.send(embed=embed)
@@ -162,7 +188,7 @@ async def falsealarm(ctx):
 async def clear(ctx):
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title='False Alarm.', description=f'Blame {ctx.message.content.replace("!falsealarm ", "")}')
-    channel = client.get_channel(750634259483590706) # Code channel.
+    channel = client.get_channel(codeChannel) # Code channel.
     await channel.purge()
     await help(ctx)
 
