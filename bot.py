@@ -6,17 +6,17 @@ from discord.ext.commands   import bot
 # token = input("Input your Discord Bot's token.\n")
 token = 'NzUwNjk3NjkyNjMxNTMxNTMw.X0-TtQ.Yl5gRibfBYwv4snJjtgzQAJpuGw'
 # ITG
-amongVoiceChannel = 750634010723614741
-amongTextChannel = 750634259483590706
-fantasmikosChannel = 750691724589793291
-codeChannel = 750700369901912124
-fiotChannel = 690522033955799051
+# amongVoiceChannel = 750634010723614741
+# amongTextChannel = 750634259483590706
+# fantasmikosChannel = 750691724589793291
+# codeChannel = 750700369901912124
+# fiotChannel = 690522033955799051
 
 #hamborguesa
-# amongVoiceChannel = 510480231979679756
-# amongTextChannel = 750850108463120434
-# fantasmikosChannel = 708779003166851112
-# codeChannel = 750857189987713115
+amongVoiceChannel = 747590796366053437
+amongTextChannel = 750850108463120434
+fantasmikosChannel = 708779003166851112
+codeChannel = 750857189987713115
 
 client = commands.Bot(command_prefix = "!")
 
@@ -44,6 +44,7 @@ async def on_command_error(ctx, error):
 # Ping command, gives latency of the bot to the user.
 @client.command()
 async def ping(ctx):
+    print("ping " + str(ctx.author) + " en " + str(ctx.channel))
     embed = discord.Embed(title="Pong!", description=":ping_pong:", colour=discord.Color.blue())
     embed.add_field(name="The latency for Among Us Bot is...", value=f"{round(client.latency * 1000)} ms")
     await ctx.send(embed=embed)
@@ -52,16 +53,19 @@ async def ping(ctx):
 # Mute all players.
 @client.command(aliases=['mute','m'])
 async def mutePlayers(ctx):
+    print("mute " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
     fixed_channel = client.get_channel(amongVoiceChannel)
     members = fixed_channel.members #finds members connected to the channel
-    await ctx.send('Shhhh :shushing_face:')
+    # await ctx.send('Shhhh :shushing_face:')
+    await ctx.send('Montero callate la puta boca :shushing_face:')
     for member in members:
         await member.edit(mute=True, deafen=True)
 
 # Unmute all players.
 @client.command(aliases=['unmute','u'])
 async def unmutePlayers(ctx):
+    print("unmute " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
     among_channel = client.get_channel(amongVoiceChannel)
     among_members = among_channel.members #finds members connected to the channel
@@ -76,6 +80,7 @@ async def unmutePlayers(ctx):
 # Unmute all players.
 @client.command(aliases=['fiot'])
 async def fiotMeeting(ctx):
+    print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     among_channel = client.get_channel(fiotChannel)
     for member in ctx.guild.members:
@@ -86,6 +91,7 @@ async def fiotMeeting(ctx):
 # Starts the game.
 @client.command(aliases=['start', 's'])
 async def startgame(ctx):
+    print("startgame " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
     embed = discord.Embed(title=f"{ctx.author} is starting a lobby!", description="Click the checkmark to ready up!", colour=discord.Color.blue())
     await ctx.send('Game Starting! @everyone')
@@ -118,6 +124,7 @@ async def on_reaction_remove(reaction, user):
 # Code command, gives the code to code channel. Usage is !code {insert code here}
 @client.command(aliases=['c'])
 async def code(ctx):
+    print("code " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
     embed = discord.Embed(title='The Code for the game is:')
     embed.add_field(name='Code:', value=f"{ctx.message.content.replace('!code ', '').replace('!c ', '')}")
@@ -152,6 +159,7 @@ async def cchannel(ctx):
 # Help command
 @client.command(aliases=['commands','h'])
 async def help(ctx):
+    print("help " + str(ctx.author) + " en " + str(ctx.channel))
     channelName = client.get_channel(amongVoiceChannel)
     embed = discord.Embed(title='Comandos del Among the Bot:', colour=discord.Color.blue())
     embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.')
@@ -171,6 +179,7 @@ async def help(ctx):
 # Cancel game command, just cancels a lobby.
 @client.command(aliases=['cancel'])
 async def cancelgame(ctx):
+    print("cancel " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title=f'{ctx.author} ha cancelado la partida', description='A casita.')
     await ctx.send(embed=embed)
@@ -191,6 +200,7 @@ async def falsealarm(ctx):
 # Borra el canal among us
 @client.command()
 async def clear(ctx):
+    print("clear " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title='False Alarm.', description=f'Blame {ctx.message.content.replace("!falsealarm ", "")}')
     channel = client.get_channel(codeChannel) # Code channel.
