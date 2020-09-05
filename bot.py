@@ -57,8 +57,8 @@ async def mutePlayers(ctx):
     await ctx.channel.purge(limit=2)
     fixed_channel = client.get_channel(amongVoiceChannel)
     members = fixed_channel.members #finds members connected to the channel
-    # await ctx.send('Shhhh :shushing_face:')
-    await ctx.send('Montero callate la puta boca :shushing_face:')
+    await ctx.send('Shhhh :shushing_face:')
+    # await ctx.send('Montero callate la puta boca :shushing_face:')
     for member in members:
         await member.edit(mute=True, deafen=True)
 
