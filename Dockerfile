@@ -24,6 +24,7 @@
 # CMD ["python", "bot.py"]
 
 FROM python
+#FROM ubuntu
 
 WORKDIR /app
 
@@ -31,11 +32,13 @@ COPY bot.py .
 
 COPY requirements.txt .
 
+#COPY * /app/
+
 #RUN apt update
 
 #RUN apt install python3
 
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 CMD ["python","bot.py"]
-
+#RUN python bot.py

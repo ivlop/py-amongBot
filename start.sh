@@ -1,5 +1,5 @@
 #!/bin/bash
-docker build -t amongBot .
-docker run -it --rm amongBot &
+docker build -t among_bot .
+docker run -i --name among_bot --rm among_bot &
 
 #python3 bot.py >> log.txt
