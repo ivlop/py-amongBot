@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord.ext.commands   import bot
 
 # token = input("Input your Discord Bot's token.\n")
-token = 'NzUwNjk3NjkyNjMxNTMxNTMw.X0-TtQ.Yl5gRibfBYwv4snJjtgzQAJpuGw'
+token = 'NzUwNjk3NjkyNjMxNTMxNTMw.X0-TtQ.LDzx90AHZTX-AEji5Qt3HfeYE78'
 # ITG
 # amongVoiceChannel = 750634010723614741
 # amongTextChannel = 750634259483590706
