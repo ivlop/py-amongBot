@@ -6,17 +6,18 @@ from discord.ext.commands   import bot
 # token = input("Input your Discord Bot's token.\n")
 token = 'NzUwNjk3NjkyNjMxNTMxNTMw.X0-TtQ.LDzx90AHZTX-AEji5Qt3HfeYE78'
 # ITG
-# amongVoiceChannel = 750634010723614741
-# amongTextChannel = 750634259483590706
-# fantasmikosChannel = 750691724589793291
-# codeChannel = 750700369901912124
-# fiotChannel = 690522033955799051
+amongVoiceChannel = 750634010723614741
+amongTextChannel = 750634259483590706
+fantasmikosChannel = 750691724589793291
+codeChannel = 750700369901912124
+fiotChannel = 690522033955799051
+ticChannel = 690523256083578931
 
 #hamborguesa
-amongVoiceChannel = 747590796366053437
-amongTextChannel = 750850108463120434
-fantasmikosChannel = 708779003166851112
-codeChannel = 750857189987713115
+# amongVoiceChannel = 747590796366053437
+# amongTextChannel = 750850108463120434
+# fantasmikosChannel = 708779003166851112
+# codeChannel = 750857189987713115
 
 client = commands.Bot(command_prefix = "!")
 
@@ -87,6 +88,17 @@ async def fiotMeeting(ctx):
         for role in member.roles: 
             if role.name == "FIOT": 
                 await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+
+# Unmute all players.
+@client.command(aliases=['desfiot'])
+async def desfiotMeeting(ctx):
+    print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(ticChannel)
+    fantasmikos_channel = client.get_channel(ticChannel)
+    fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
+    for member in fantasmikos_members:
+        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
 
 # Starts the game.
 @client.command(aliases=['start', 's'])
