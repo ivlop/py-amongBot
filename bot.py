@@ -90,12 +90,12 @@ async def fiotMeeting(ctx):
                 await member.edit(mute=False, deafen=False, voice_channel=among_channel)
 
 # Unmute all players.
-@client.command(aliases=['desfiot'])
+@client.command(aliases=['desfiot', 'ufiot'])
 async def desfiotMeeting(ctx):
     print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     among_channel = client.get_channel(ticChannel)
-    fantasmikos_channel = client.get_channel(ticChannel)
+    fantasmikos_channel = client.get_channel(fiotChannel)
     fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
     for member in fantasmikos_members:
         await member.edit(mute=False, deafen=False, voice_channel=among_channel)
