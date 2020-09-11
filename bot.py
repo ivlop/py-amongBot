@@ -79,20 +79,22 @@ async def unmutePlayers(ctx):
         await member.edit(mute=False, deafen=False)
 
 # Unmute all players.
-@client.command(aliases=['fiot'])
+@client.command(aliases=['fiot', 'f'])
 async def fiotMeeting(ctx):
     print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     among_channel = client.get_channel(fiotChannel)
-    for member in ctx.guild.members:
-        if "FIOT" in ctx.author.roles:
-            print("hola")
-            for role in member.roles:
-                if role.name == "FIOT":
-                    await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+    for userRole in ctx.author.roles:
+        if userRole.name == "FIOT":
+            for member in ctx.guild.members:
+                for role in member.roles:
+                    if role.name == "FIOT":
+                        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+        else:
+            await ctx.author.edit(mute=False, deafen=False, voice_channel=among_channel)
 
 # Unmute all players.
-@client.command(aliases=['desfiot', 'ufiot'])
+@client.command(aliases=['desfiot', 'ufiot', 'uf'])
 async def desfiotMeeting(ctx):
     print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
@@ -102,6 +104,14 @@ async def desfiotMeeting(ctx):
     for member in fantasmikos_members:
         await member.edit(mute=False, deafen=False, voice_channel=among_channel)
 
+# Unmute all players.
+@client.command(aliases=['among'])
+async def amongMeeting(ctx):
+    print("among " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(amongVoiceChannel)
+    for member in ctx.guild.members:
+        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
 # Starts the game.
 @client.command(aliases=['start', 's'])
 async def startgame(ctx):
@@ -186,6 +196,7 @@ async def help(ctx):
     embed.add_field(name='StartGameNoPing', value='Empezar el juego, pero sin avisar.')
     embed.add_field(name='ImposterWon', value='!imposterwon {imposters}. Shows who the imposters were, and when they won!')
     embed.add_field(name='CrewWon', value='!crewwon {imposters}. Shows that the crew won and who the imposters were.')
+    embed.add_field(name='Among', value='Mueve a todos los miembros conectados al canal de voz ' + str(channelName) + '.')
     embed.add_field(name='HotKeys en el juego', value='Tab: ver el mapa \n Space, e: use')
     await ctx.send(embed=embed)
 
