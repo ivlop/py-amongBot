@@ -85,9 +85,11 @@ async def fiotMeeting(ctx):
     await ctx.channel.purge(limit=1)
     among_channel = client.get_channel(fiotChannel)
     for member in ctx.guild.members:
-        for role in member.roles: 
-            if role.name == "FIOT": 
-                await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+        if "FIOT" in ctx.author.roles:
+            print("hola")
+            for role in member.roles:
+                if role.name == "FIOT":
+                    await member.edit(mute=False, deafen=False, voice_channel=among_channel)
 
 # Unmute all players.
 @client.command(aliases=['desfiot', 'ufiot'])
