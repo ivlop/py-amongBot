@@ -12,6 +12,7 @@ fantasmikosChannel = 750691724589793291
 codeChannel = 750700369901912124
 fiotChannel = 690522033955799051
 ticChannel = 690523256083578931
+cmpdChannel = 747716139357831259
 
 #hamborguesa
 # amongVoiceChannel = 747590796366053437
@@ -96,10 +97,37 @@ async def fiotMeeting(ctx):
 # Unmute all players.
 @client.command(aliases=['desfiot', 'ufiot', 'uf'])
 async def desfiotMeeting(ctx):
-    print("fiot " + str(ctx.author) + " en " + str(ctx.channel))
+    print("desfiot " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=1)
     among_channel = client.get_channel(ticChannel)
     fantasmikos_channel = client.get_channel(fiotChannel)
+    fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
+    for member in fantasmikos_members:
+        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+
+
+# Unmute all players.
+@client.command(aliases=['cmpd', 'C'])
+async def cmpdMeeting(ctx):
+    print("cmpd " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(cmpdChannel)
+    for userRole in ctx.author.roles:
+        if userRole.name == "CMPD":
+            for member in ctx.guild.members:
+                for role in member.roles:
+                    if role.name == "CMPD":
+                        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+        else:
+            await ctx.author.edit(mute=False, deafen=False, voice_channel=among_channel)
+
+# Unmute all players.
+@client.command(aliases=['descmpd', 'ucmpd', 'uc'])
+async def descmpdMeeting(ctx):
+    print("descmpd " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(ticChannel)
+    fantasmikos_channel = client.get_channel(cmpdChannel)
     fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
     for member in fantasmikos_members:
         await member.edit(mute=False, deafen=False, voice_channel=among_channel)
@@ -116,8 +144,8 @@ async def amongMeeting(ctx):
 @client.command(aliases=['start', 's'])
 async def startgame(ctx):
     print("startgame " + str(ctx.author) + " en " + str(ctx.channel))
-    await ctx.channel.purge(limit=2)
-    embed = discord.Embed(title=f"{ctx.author} is starting a lobby!", description="Click the checkmark to ready up!", colour=discord.Color.blue())
+    await ctx.channel.purge(limit=1)
+    embed = discord.Embed(title=f"{ctx.author} está reclutando gente!", description="Haz click en el checkmark para marcar listo!", colour=discord.Color.blue())
     await ctx.send('Game Starting! @everyone')
     message = await ctx.send(embed=embed)
     emojis = '✅'
@@ -132,7 +160,7 @@ async def on_reaction_add(reaction, user):
         return
     if emoji == '✅':
         fixed_channel = client.get_channel(amongTextChannel) # General / main chat channel ID
-        await fixed_channel.send(f'{user.mention} is ready to play! [{reaction.count - 1}/10]')
+        await fixed_channel.send(f'{user.mention} está listo para jugar! [{reaction.count - 1}/10]')
 
 
 @client.event
@@ -142,15 +170,15 @@ async def on_reaction_remove(reaction, user):
         return
     if emoji == '✅':
         fixed_channel = client.get_channel(amongTextChannel) # General / main chat channel ID
-        await fixed_channel.send(f'{user.mention} is no longer ready to play! [{reaction.count - 1}/10]')
+        await fixed_channel.send(f'{user.mention} ya no va a jugar! [{reaction.count - 1}/10]')
 
 
 # Code command, gives the code to code channel. Usage is !code {insert code here}
 @client.command(aliases=['c'])
 async def code(ctx):
     print("code " + str(ctx.author) + " en " + str(ctx.channel))
-    await ctx.channel.purge(limit=2)
-    embed = discord.Embed(title='The Code for the game is:')
+    await ctx.channel.purge(limit=1)
+    embed = discord.Embed(title='El código de la partida es:')
     embed.add_field(name='Code:', value=f"{ctx.message.content.replace('!code ', '').replace('!c ', '')}")
     channel = client.get_channel(codeChannel) # Code channel.
     await channel.purge()
@@ -185,6 +213,10 @@ async def cchannel(ctx):
 async def help(ctx):
     print("help " + str(ctx.author) + " en " + str(ctx.channel))
     channelName = client.get_channel(amongVoiceChannel)
+    fiotName = client.get_channel(fiotChannel)
+    cmpdName = client.get_channel(cmpdChannel)
+    ticName = client.get_channel(ticChannel)
+
     embed = discord.Embed(title='Comandos del Among the Bot:', colour=discord.Color.blue())
     embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.')
     embed.add_field(name='startgame (s)', value='Comienza la partida y permite a los miembros estar listos')
@@ -198,6 +230,10 @@ async def help(ctx):
     embed.add_field(name='CrewWon', value='!crewwon {imposters}. Shows that the crew won and who the imposters were.')
     embed.add_field(name='Among', value='Mueve a todos los miembros conectados al canal de voz ' + str(channelName) + '.')
     embed.add_field(name='HotKeys en el juego', value='Tab: ver el mapa \n Space, e: use')
+    embed.add_field(name='fiot (f)', value='Mueve al equipo FIOT a ' + str(fiotName) + '.')
+    embed.add_field(name='desfiot (uf, ufiot)', value='Mueve al equipo FIOT a ' + str(ticName) + '.')
+    embed.add_field(name='cpmd (C)', value='Mueve al equipo CPMD a ' + str(cmpdName) + '.')
+    embed.add_field(name='descmpd (uc, ucmpd)', value='Mueve al equipo CMPD a ' + str(ticName) + '.')
     await ctx.send(embed=embed)
 
 
