@@ -29,7 +29,7 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print('Among Us Bot is online!')
-    await client.change_presence(status = discord.Status.online, activity=discord.Game('!help for commands'))
+    await client.change_presence(status = discord.Status.online, activity=discord.Game('!help para ayuda'))
 
 
 # Error handling.
@@ -51,7 +51,15 @@ async def ping(ctx):
     embed.add_field(name="The latency for Among Us Bot is...", value=f"{round(client.latency * 1000)} ms")
     await ctx.send(embed=embed)
 
-
+@client.command(aliases=['un'])
+async def unete(ctx):
+    channel = ctx.author.voice.channel
+    print(channel)
+    await channel.connect()
+@client.command(aliases=['ve'])
+async def vete(ctx):
+    await ctx.voice_client.disconnect()
+    
 # Mute all players.
 @client.command(aliases=['mute','m'])
 async def mutePlayers(ctx):
@@ -161,6 +169,8 @@ async def on_reaction_add(reaction, user):
     if emoji == '✅':
         fixed_channel = client.get_channel(amongTextChannel) # General / main chat channel ID
         await fixed_channel.send(f'{user.mention} está listo para jugar! [{reaction.count - 1}/10]')
+        # role = discord.utils.get(user.guild.roles, name="Amonger")
+        # await user.add_roles(role)
 
 
 @client.event
@@ -218,8 +228,8 @@ async def help(ctx):
     ticName = client.get_channel(ticChannel)
 
     embed = discord.Embed(title='Comandos de Among the Bot:', colour=discord.Color.blue())
-    embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.')
-    embed.add_field(name='startgame (s)', value='Comienza la partida y permite a los miembros estar listos')
+    embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.\n')
+    embed.add_field(name='startgame (s)', value='Comienza la partida y permite a los miembros estar listos.\n')
     embed.add_field(name='Mute (m)', value='Mutea y ensordece a los miembros del canal ' + str(channelName) + '.')
     embed.add_field(name='unMute (u)', value='Desmutea y desensordece a los miembros del canal ' + str(channelName) + '.')
     embed.add_field(name='Ping', value='Muestra la lantencia de bot con los servidores de discord.')
