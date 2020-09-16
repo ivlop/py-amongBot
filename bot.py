@@ -217,7 +217,7 @@ async def help(ctx):
     cmpdName = client.get_channel(cmpdChannel)
     ticName = client.get_channel(ticChannel)
 
-    embed = discord.Embed(title='Comandos del Among the Bot:', colour=discord.Color.blue())
+    embed = discord.Embed(title='Comandos de Among the Bot:', colour=discord.Color.blue())
     embed.add_field(name='Code (c) {code}', value='Envía al canal #code el código de la partida.')
     embed.add_field(name='startgame (s)', value='Comienza la partida y permite a los miembros estar listos')
     embed.add_field(name='Mute (m)', value='Mutea y ensordece a los miembros del canal ' + str(channelName) + '.')
