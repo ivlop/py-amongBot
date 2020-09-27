@@ -13,12 +13,7 @@ codeChannel = 750700369901912124
 fiotChannel = 690522033955799051
 ticChannel = 690523256083578931
 cmpdChannel = 747716139357831259
-
-#hamborguesa
-# amongVoiceChannel = 747590796366053437
-# amongTextChannel = 750850108463120434
-# fantasmikosChannel = 708779003166851112
-# codeChannel = 750857189987713115
+rChannel = 688865859246358549
 
 client = commands.Bot(command_prefix = "!")
 
@@ -29,7 +24,7 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print('Among Us Bot is online!')
-    await client.change_presence(status = discord.Status.online, activity=discord.Game('!help para ayuda'))
+    await client.change_presence(status = discord.Status.online, activity=discord.Game('among us'))
 
 
 # Error handling.
@@ -65,19 +60,23 @@ async def vete(ctx):
 async def mutePlayers(ctx):
     print("mute " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
-    fixed_channel = client.get_channel(amongVoiceChannel)
+    fixed_channel = client.get_channel(ctx.channel.id)
     members = fixed_channel.members #finds members connected to the channel
     await ctx.send('Shhhh :shushing_face:')
     # await ctx.send('Montero callate la puta boca :shushing_face:')
     for member in members:
-        await member.edit(mute=True, deafen=True)
+        await member.edit(mute=True, deafen=False)
+    for member in members:
+        for role in member.roles:
+            if role.name == "Musica":
+                await member.edit(mute=False, deafen=True)
 
 # Unmute all players.
 @client.command(aliases=['unmute','u'])
 async def unmutePlayers(ctx):
     print("unmute " + str(ctx.author) + " en " + str(ctx.channel))
     await ctx.channel.purge(limit=2)
-    among_channel = client.get_channel(amongVoiceChannel)
+    among_channel = client.get_channel(ctx.channel.id)
     among_members = among_channel.members #finds members connected to the channel
     fantasmikos_channel = client.get_channel(fantasmikosChannel)
     fantasmikos_members = fantasmikos_channel.members #finds members connected to the channel
@@ -86,6 +85,10 @@ async def unmutePlayers(ctx):
     await ctx.send('A discutir :thinking:')
     for member in among_members:
         await member.edit(mute=False, deafen=False)
+    for member in among_members:
+        for role in member.roles:
+            if role.name == "Musica":
+                await member.edit(mute=True, deafen=True)
 
 # Unmute all players.
 @client.command(aliases=['fiot', 'f'])
@@ -148,6 +151,45 @@ async def amongMeeting(ctx):
     among_channel = client.get_channel(amongVoiceChannel)
     for member in ctx.guild.members:
         await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+
+# Unmute all players.
+@client.command(aliases=['tic'])
+async def ticMeeting(ctx):
+    print("tic " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    among_channel = client.get_channel(ticChannel)
+    for member in ctx.guild.members:
+        await member.edit(mute=False, deafen=False, voice_channel=among_channel)
+
+@client.command(aliases=['baño', 'ivan'])
+async def banoMeeting(ctx):
+    print("1")
+    tic_channel = client.get_channel(ticChannel)
+    bano_channel = client.get_channel(banoChannel)
+    miembros = []
+    print("1.1")
+    for member in ctx.guild.members:
+        print("1.2")
+        miembros.append(member)
+        print("2")
+        if member.id == 292802384705617920:
+            me = member
+    print(len(miembros))
+    if len(miembros) > 0:
+        miembros.shuffle()
+        await miembros[0].edit(mute=False, deafen=False, voice_channel=bano_channel)
+        await me.edit(mute=False, deafen=False, voice_channel=bano_channel)
+
+
+# Starts the game.
+@client.command(aliases=['musica'])
+async def musicote(ctx):
+    print("startgame " + str(ctx.author) + " en " + str(ctx.channel))
+    await ctx.channel.purge(limit=1)
+    channel = client.get_channel(rChannel)
+    await channel.send('!play https://open.spotify.com/playlist/0BgRKibZdo25bU7gqORAgi?si=loueRIqyS0WX7uTeWe6Haw')
+    await channel.send('!shuffle')
+        
 # Starts the game.
 @client.command(aliases=['start', 's'])
 async def startgame(ctx):
@@ -190,6 +232,7 @@ async def code(ctx):
     await ctx.channel.purge(limit=1)
     embed = discord.Embed(title='El código de la partida es:')
     embed.add_field(name='Code:', value=f"{ctx.message.content.replace('!code ', '').replace('!c ', '')}")
+    await ctx.send(embed=embed)
     channel = client.get_channel(codeChannel) # Code channel.
     await channel.purge()
     await channel.send(embed=embed)
